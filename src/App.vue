@@ -3,9 +3,9 @@
     <nav-header></nav-header>
     <div class="content">
       <input-form  placeholder="할일을 입력하세요"></input-form>
-      <todo-list v-if="isall" :todos="filtered" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
-      <todo-list v-if="iscompleted" :todos="completed" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
-      <todo-list v-if="isactived" :todos="activated" :total="count":isactive="activated" :iscomplete="completed"></todo-list>
+      <todo-list v-if="chk_all" :todos="filtered" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
+      <todo-list v-if="chk_complete" :todos="completed" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
+      <todo-list v-if="chk_active" :todos="activated" :total="count":isactive="activated" :iscomplete="completed"></todo-list>
     </div>
     <!-- {{filtered}} -->
   </div>
@@ -22,9 +22,9 @@ export default {
   name: 'app',
   data(){
     return {
-      isall:true,
-      isactived: false,
-      iscompleted: false,
+      chk_all:true,
+      chk_active: false,
+      chk_complete: false,
       todo_lists: []
     }
   },
@@ -36,19 +36,19 @@ export default {
       self.addList(data);
     })
     eventBus.$on('onAll', function(){
-      self.isall = true;
-      self.isactived = false;
-      self.iscompleted = false;
+      self.chk_all = true;
+      self.chk_active = false;
+      self.chk_complete = false;
     })
     eventBus.$on('onComplete', function(){
-      self.isall = false;
-      self.isactived = false;
-      self.iscompleted = true;
+      self.chk_all = false;
+      self.chk_active = false;
+      self.chk_complete = true;
     })
     eventBus.$on('onActive', function(){
-      self.isall = false;
-      self.isactived = true;
-      self.iscompleted = false;
+      self.chk_all = false;
+      self.chk_active = true;
+      self.chk_complete = false;
     })
     eventBus.$on('onRemove', function(todo){
       var task = todo;

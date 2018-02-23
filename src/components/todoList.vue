@@ -2,7 +2,7 @@
   <div>
     <ul class="list-group">
       <li class="list-group-item" v-for="todo in todos">
-        <label><input type="checkbox" v-model="todo.completed" /> {{todo.task}}</label>
+        <label><input type="checkbox" v-model="todo.completed" /> <span>{{todo.task}}</span></label>
         <button type="button" class="del" v-on:click="remove(todo)"></button>
       </li>
     </ul>
@@ -54,5 +54,9 @@ export default {
     content:'x';
     font-size:1.6rem;
     color:#cc9a9a;
+  }
+  input[type="checkbox"]:checked + span {
+    text-decoration: line-through;
+    color:#999;
   }
 </style>

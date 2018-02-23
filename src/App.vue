@@ -4,8 +4,8 @@
     <div class="content">
       <input-form  placeholder="할일을 입력하세요"></input-form>
       <todo-list v-if="chk_all" :todos="filtered" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
-      <todo-list v-if="chk_complete" :todos="completed" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
-      <todo-list v-if="chk_active" :todos="activated" :total="count":isactive="activated" :iscomplete="completed"></todo-list>
+      <todo-list v-if="chk_complete" :todos="completed" :sel_complete="chk_complete" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
+      <todo-list v-if="chk_active" :todos="activated" :sel_active="chk_active" :total="count":isactive="activated" :iscomplete="completed"></todo-list>
     </div>
     <!-- {{filtered}} -->
   </div>

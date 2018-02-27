@@ -27,16 +27,15 @@ export default {
     }
   },
   created(){
-    var self = this;
-    self.updateView();
+    this.updateView();
     console.log('created');
 
-    eventBus.$on('add', data => self.addList(data));
+    eventBus.$on('add', data => this.addList(data));
     eventBus.$on('onAll', () => this.onAll());
     eventBus.$on('onComplete', () => this.onComplete());
     eventBus.$on('onActive', () => this.onActive());
-    eventBus.$on('onRemove', todo => self.remove(todo));
-    eventBus.$on('onRemoveAll', () => self.removeList());
+    eventBus.$on('onRemove', todo => this.remove(todo));
+    eventBus.$on('onRemoveAll', () => this.removeList());
   },
   computed: {
     filtered(){

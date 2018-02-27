@@ -2,10 +2,8 @@
   <div id="app">
     <nav-header></nav-header>
     <div class="content">
-      <input-form  placeholder="할일을 입력하세요"></input-form>
-      <todo-list v-if="chk_all" :todos="filtered" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
-      <todo-list v-if="chk_complete" :todos="completed" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
-      <todo-list v-if="chk_active" :todos="activated" :total="count":isactive="activated" :iscomplete="completed"></todo-list>
+      <input-form placeholder="할일을 입력하세요"></input-form>
+      <todo-list v-if="count" :todos="filtered, completed, activated" :total="count" :isactive="activated" :iscomplete="completed"></todo-list>
     </div>
     <!-- {{filtered}} -->
   </div>
@@ -32,31 +30,13 @@ export default {
     var self = this;
     self.updateView();
     console.log('created');
-    eventBus.$on('add', function(data){
-      self.addList(data);
-    })
-    eventBus.$on('onAll', function(){
-      self.chk_all = true;
-      self.chk_active = false;
-      self.chk_complete = false;
-    })
-    eventBus.$on('onComplete', function(){
-      self.chk_all = false;
-      self.chk_active = false;
-      self.chk_complete = true;
-    })
-    eventBus.$on('onActive', function(){
-      self.chk_all = false;
-      self.chk_active = true;
-      self.chk_complete = false;
-    })
-    eventBus.$on('onRemove', function(todo){
-      var task = todo;
-      self.remove(task);
-    })
-    eventBus.$on('onRemoveAll', function(){
-      self.removeList();
-    })
+
+    eventBus.$on('add', data => self.addList(data));
+    eventBus.$on('onAll', () => this.onAll());
+    eventBus.$on('onComplete', () => this.onComplete());
+    eventBus.$on('onActive', () => this.onActive());
+    eventBus.$on('onRemove', todo => self.remove(todo));
+    eventBus.$on('onRemoveAll', () => self.removeList());
   },
   computed: {
     filtered(){
@@ -95,9 +75,9 @@ export default {
     },
   },
   components: {
-    'nav-header': navHeader,
-    'input-form': inputForm,
-    'todo-list': todoList,
+    navHeader,
+    inputForm,
+    todoList,
   },
   methods: {
     updateView(){
@@ -125,7 +105,23 @@ export default {
       });
       this.todo_lists = filtered;
       updateList(this.todo_lists);
+    },
+    onAll() {
+      this.chk_all = true;
+      this.chk_active = false;
+      this.chk_complete = false;
+    },
+    onComplete() {
+      this.chk_all = false;
+      this.chk_active = false;
+      this.chk_complete = true;
+    },
+    onActive() {
+      this.chk_all = false;
+      this.chk_active = true;
+      this.chk_complete = false;
     }
+
   }
 }
 </script>

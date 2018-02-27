@@ -1,13 +1,11 @@
-var storage = localStorage,
-    getLists = function(){
-      return JSON.parse(storage.getItem("todoList")) || [];
-    },
-    appendList = function(list){
-      var lists = getLists();
+const storage = localStorage,
+    getLists = () => JSON.parse(storage.getItem("todoList")) || [],
+    appendList = (list) => {
+      const lists = getLists();
       lists.push(list);
       storage.setItem("todoList", JSON.stringify(lists));
     },
-    updateList = function(lists){
+    updateList = (lists) => {
       storage.removeItem("todoList");
       storage.setItem("todoList", JSON.stringify(lists));
     };

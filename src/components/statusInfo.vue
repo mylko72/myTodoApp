@@ -2,9 +2,9 @@
   <div class="btns" role="group">
     <hr />
     <div>
-      <button class="btn btn-default selected" type="button" v-on:click="showAll">All <span class="badge">{{ sum }}</span></button>
-      <button class="btn btn-default" type="button" v-on:click="showActive">Active <span class="badge">{{ activelist.length }}</span></button>
-      <button class="btn btn-default" type="button" v-on:click="showComplete">Completed <span class="badge">{{ completelist.length }}</span></button>
+      <button ref="allBtn" v-bind:class="{selected : allCheck}" class="btn btn-default" type="button" v-on:click="showAll">All <span class="badge">{{ sum }}</span></button>
+      <button ref="activeBtn" v-bind:class="{selected : activeCheck}" class="btn btn-default" type="button" v-on:click="showActive">Active <span class="badge">{{ activelist.length }}</span></button>
+      <button ref="completeBtn" v-bind:class="{selected : completeCheck}" class="btn btn-default" type="button" v-on:click="showComplete">Completed <span class="badge">{{ completelist.length }}</span></button>
     </div>
     <a href="#" class="btn-clear" @click="removeComplete">Clear completed</a>
   </div>
@@ -16,34 +16,36 @@ import { eventBus } from '../main.js';
 export default {
   name: 'statusinfo',
   props: ['sum', 'activelist', 'completelist'],
+  data() {
+    return {
+      allCheck: true,
+      activeCheck: false,
+      completeCheck: false
+    }
+  },
   methods: {
     showAll(e){
-      var targetEl = e.target;
       eventBus.$emit('onAll');
-      this.switchButton(targetEl);
+      this.initButtons();
+      this.allCheck = true;
     },
     showActive(e){
-      var targetEl = e.target;
       eventBus.$emit('onActive');
-      this.switchButton(targetEl);
+      this.initButtons();
+      this.activeCheck = true;
     },
     showComplete(e){
-      var targetEl = e.target;
       eventBus.$emit('onComplete');
-      this.switchButton(targetEl);
+      this.initButtons();
+      this.completeCheck = true;
     },
     removeComplete(){
       eventBus.$emit('onRemoveAll');
     },
-    switchButton(target){
-      var btnEl = document.querySelectorAll('.btn-default');
-
-      [].forEach.call(btnEl, function(btn) {
-          if (target !== btn) {
-              btn.classList.remove('selected');
-          }
-      });
-      target.classList.add('selected');
+    initButtons(target){
+      this.allCheck = false;
+      this.activeCheck = false;
+      this.completeCheck = false;
     }
   }
 }

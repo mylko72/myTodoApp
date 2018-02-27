@@ -19,7 +19,7 @@ export default {
   name: 'todolist',
   props: ['todos', 'total', 'isactive', 'iscomplete'],
   components: {
-    'status-info': statusInfo
+    statusInfo
   },
   methods: {
     remove(task){
